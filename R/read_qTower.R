@@ -30,7 +30,7 @@ read_qtower <- function( file_path,
         mutate(across(c(.data$well, .data$channel), base::as.character)) %>%
         mutate(across(c(.data$Temperature, .data$value), base::as.numeric)) %>%
         mutate(channel_f = factor(.data$channel, levels = channel_levels)) %>%
-        mutate(Temperature = start_temp + (.data$Temperature * inc_temp))
+        mutate(Temperature = (start_temp - 1) + (.data$Temperature * inc_temp))
 }
 
 # helper function for read_qtower, not exported
