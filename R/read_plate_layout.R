@@ -15,10 +15,10 @@
 #' @import readxl
 #' @import tidyr
 #' @import tools
+#' @importFrom utils "globalVariables"
 #'
 #'
 #' @export
-
 read_plate_layout <- function(filepath){
 
   # read file based on it's type
@@ -52,3 +52,5 @@ read_plate_layout <- function(filepath){
     dplyr::filter(!is.na(across(-c(.data$well, .data$row, .data$column, .data$condition))) == TRUE) %>% # if all variables are NA,   wells
     dplyr::mutate(across(everything(), readr::parse_guess)) # convert likely numeric variables to numeric
 }
+
+utils::globalVariables(c(".", "condition"))
