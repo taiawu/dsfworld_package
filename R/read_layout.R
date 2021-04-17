@@ -29,7 +29,7 @@ read_layout <- function(filepath) {
                 txt =  readr::read_tsv(filepath, col_names = FALSE),
                 xlsx = readxl::read_excel(filepath, col_names = FALSE),
                 xls =  readxl::read_excel(filepath, col_names = FALSE)
-  )
+  ) %>% base:: suppressMessages()
 
   # handle files with or without the "Type" header
   first_cell <- raw[1,1][[1]]
