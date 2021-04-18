@@ -21,7 +21,7 @@ read_qtower(
 \item{channel_levels}{A vector used to set the order of the channels measured in the loaded experiment. Defaults to FAM, JOE, TAMRA, ROX, Cy5 ,Cy5.5, SyproOrange. Channels not present in this list will be NA in the output tibble.}
 }
 \value{
-A tibble containg all data, but no meta-data, present in the loaded csv file. Includes columns: well, channel, Temperature, value, and channel_f.
+A tibble containg all data, but no meta-data, present in the loaded csv file. Includes columns: variable (combines well and channel, to uniquely identify each trace), well, channel, channel_f (channels as a factor, ordered by increasing excitation wavelength), Temperature, value, and value_norm (each raw data trace, rescaled to a 0 to 1 range).
 }
 \description{
 Read raw data file (.csv) directly as exported from a qTower 384G qPCR instrument. Creates a "channel_f" column, which contains the channels as a factor, with default levels of FAM, JOE, TAMRA, ROX, Cy5 ,Cy5.5, SyproOrange. Converts from cycle number to Temperature, with a default starting temperature of 25, and 1 C increase between measurements.

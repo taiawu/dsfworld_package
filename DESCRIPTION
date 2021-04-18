@@ -1,16 +1,26 @@
 Package: dsfworld
-Title: What the Package Does (One Line, Title Case)
+Title: Visualizes and Analyzes Differential Scanning Fluorimetry Data
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Taiasean",
+           family = "Wu",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+           email = "taiawu@gmail.com",
+           comment = c(ORCID = "0000-0001-6988-1414"))
+Description: Partner package to the dsfworld website. Contains functions for loading, plotting, and analyzing DSF data.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports: 
+    purrr,
+    dplyr,
+    tidyr,
+    magrittr,
+    tools,
+    readr,
+    readxl,
+    utils,
+    glue,
+    scales
