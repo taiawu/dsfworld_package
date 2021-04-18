@@ -12,6 +12,11 @@
 #'@param .make_character A vector containing the names of any columns from the layout which, if not already of type character, should be coerced to character. Character-type columns are automatically detected using readr::parse_guess() in read_plate_layout, so this argument is necessary only if a user wants to override the decision made by readr::parse_guess().
 #'
 #' @return A tibble, containing all columns present in the input data and layout tibbles, joined into a single, labeled tibble.
+#'
+#' @importFrom dplyr left_join filter mutate across all_of
+#' @importFrom glue glue
+#' @importFrom utils "globalVariables"
+#'
 #' @export
 label_data <- function(data,
                        layout,
@@ -23,11 +28,11 @@ label_data <- function(data,
                        .make_character = c()) {
   # join data and layout
   out <- data %>%
-    dplyr::left_join( . , layout, by = join_by) %>%
-    dplyr::filter()
+    left_join( . , layout, by = join_by) %>%
+    filter()
 
   # filter out .drop_matches
-  if (drop_empties == TRUE) { try( out <- out %>% dplyr::filter(! {{.drop_from}} %in%.drop_matches)) }
+  if (drop_empties == TRUE) { try( out <- out %>% filter(! {{.drop_from}} %in%.drop_matches)) }
 
   # alert users of invalid .make_character and .make_numeric selections
   if ("value" %in% .make_character)       { cant_change_that("value", ".make_character", "numeric")
@@ -49,14 +54,14 @@ label_data <- function(data,
 
 
   # perform desired type-changes
-  try(out <- out %>% dplyr::mutate(across(all_of(.make_numeric), base::as.numeric)))
-  try(out <- out %>% dplyr::mutate(across(all_of(.make_character), base::as.character)))
+  try(out <- out %>% mutate(across(all_of(.make_numeric), base::as.numeric)))
+  try(out <- out %>% mutate(across(all_of(.make_character), base::as.character)))
 
   out
 }
 
 cant_change_that <- function( change_what, which_argument, keep_as ) {
-  glue::glue("You have supplied '{change_what}' to the {which_argument} argument. However, the {change_what} column must remain {keep_as}, so no change has been made to the type of the {change_what} column.") %>% print()
+  glue("You have supplied '{change_what}' to the {which_argument} argument. However, the {change_what} column must remain {keep_as}, so no change has been made to the type of the {change_what} column.") %>% print()
 }
 
 utils::globalVariables(c("protein"))
