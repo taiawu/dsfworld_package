@@ -39,7 +39,7 @@ read_qtower <- function( file_path,
     mutate(across(c(.data$Temperature, .data$value), base::as.numeric)) %>% # make data numeric
     mutate(channel_f = base::factor(.data$channel, levels = channel_levels)) %>% # make channel a factor
     mutate(Temperature = (start_temp - 1) + (.data$Temperature * inc_temp)) %>% # convert cycle to temp
-    unite(.data$variable, c(.data$well, .data$channel_f), remove = FALSE) %>% # unique trace identifier
+    unite(variable, c(.data$well, .data$channel_f), remove = FALSE) %>% # unique trace identifier
     group_by(.data$variable) %>%
     mutate(value_norm = rescale(.data$value, to = c(0,1))) %>%
     ungroup() %>%
