@@ -27,28 +27,32 @@ label_data <- function(data,
                        .make_numeric  = c(),
                        .make_character = c()) {
   # join data and layout
-  out <- data %>%
-    left_join( . , layout, by = join_by) %>%
-    filter()
+  out <-
+    data %>%
+    left_join( . , layout, by = join_by)
 
   # filter out .drop_matches
-  if (drop_empties == TRUE) { try( out <- out %>% filter(! {{.drop_from}} %in%.drop_matches)) }
+  if (drop_empties == TRUE) { try( out <-
+                                     out %>%
+                                     filter(! {{ .drop_from }} %in% .drop_matches) %>% # when empties NOT dropped from layout
+                                     filter(! is.na( {{ .drop_from }})) # when empties WERE dropped from layout
+  ) }
 
   # alert users of invalid .make_character and .make_numeric selections
   if ("value" %in% .make_character)       { cant_change_that("value", ".make_character", "numeric")
-                                            .make_character <- .make_character[!.make_character %in% c("Temperature", "value", "column")]}
+    .make_character <- .make_character[!.make_character %in% c("Temperature", "value", "column")]}
 
   if ("Temperature" %in% .make_character) { cant_change_that("Temperature", ".make_character", "numeric")
-                                            .make_character <- .make_character[!.make_character %in% c("Temperature", "value", "column")]}
+    .make_character <- .make_character[!.make_character %in% c("Temperature", "value", "column")]}
 
-   if ("column" %in% .make_character)      { cant_change_that("column", ".make_character", "numeric")
-                                            .make_character <- .make_character[!.make_character %in% c("Temperature", "value", "column")]}
+  if ("column" %in% .make_character)      { cant_change_that("column", ".make_character", "numeric")
+    .make_character <- .make_character[!.make_character %in% c("Temperature", "value", "column")]}
 
-   if ("well" %in% .make_numeric)          { cant_change_that("well", ".make_numeric", "character")
-                                            .make_numeric <- .make_numeric[!.make_numeric %in% c("well", "row")]}
+  if ("well" %in% .make_numeric)          { cant_change_that("well", ".make_numeric", "character")
+    .make_numeric <- .make_numeric[!.make_numeric %in% c("well", "row")]}
 
   if ("row" %in% .make_numeric)           { cant_change_that("row", ".make_numeric", "character")
-                                            .make_numeric <- .make_numeric[!.make_numeric %in% c("well", "row")]}
+    .make_numeric <- .make_numeric[!.make_numeric %in% c("well", "row")]}
 
   # ensure no protected columns are present in the .make_character and .make_numeric selections
 
