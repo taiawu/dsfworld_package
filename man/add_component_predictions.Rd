@@ -2,27 +2,18 @@
 % Please edit documentation in R/get_model_fits.R
 \name{add_component_predictions}
 \alias{add_component_predictions}
-\title{Add predictions for each component to the dataframe}
+\title{Add predictions for individual model components}
 \usage{
-add_component_predictions(
-  tidied,
-  data,
-  temp_col = "Temperature",
-  rescale_temp_col = TRUE
-)
+add_component_predictions(df)
 }
 \arguments{
-\item{tidied}{a tibble; the tidied model outputs}
-
-\item{data}{the column containing nested data}
-
-\item{temp_col}{name of the column containing temperature in data}
-
-\item{rescale_temp_col}{normalize the temperature column?}
+\item{df}{nested tibble}
 }
 \value{
-data df, with predicts added
+nested tibble with individual components added to the nested dataframes
+
+the df, with component predictions added
 }
 \description{
-Add predictions for each component to the dataframe
+Add predictions for individual model components
 }

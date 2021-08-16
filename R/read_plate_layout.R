@@ -10,6 +10,7 @@
 #'
 #'
 #' @importFrom magrittr "%>%"
+#' @importFrom tidyselect everything
 #' @importFrom tools file_ext
 #' @importFrom readr read_csv read_tsv parse_guess
 #' @importFrom readxl read_excel
@@ -17,9 +18,10 @@
 #' @importFrom dplyr filter if_all mutate across
 #' @importFrom tidyr pivot_longer pivot_wider unite
 #' @importFrom utils "globalVariables"
+#' @importFrom rlang .data
 #'
 #' @export
-read_plate_layout <- function(filepath){
+read_plate_layout <- function(filepath) {
 
   # read file based on it's type
   ext <- file_ext(filepath)

@@ -215,6 +215,7 @@ add_component_predictions <-
 #'
 #' @importFrom dplyr mutate if_else
 #' @importFrom tidyr unite
+#' @importFrom readr parse_number
 #'
 #' @return components, annotated extra columns
 #'
