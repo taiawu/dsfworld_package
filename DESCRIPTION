@@ -23,4 +23,16 @@ Imports:
     readxl,
     utils,
     glue,
-    scales
+    scales,
+    tidyselect,
+    rlang,
+    signal,
+    vroom,
+    modelr,
+    tibble,
+    quantmod,
+    minpack.lm,
+    broom
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
