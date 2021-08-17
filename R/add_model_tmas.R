@@ -10,8 +10,7 @@ add_model_tmas <-
   function(by_var, ...) {
     out <-
       by_var %>%
-      dplyr::mutate(model_tma = tryCatch( purrr::map(.data$data, extract_component_tma, ...),
-                                          error = function(e) {NA}, warning = function(w) {NA}))
+      dplyr::mutate(model_tma = try( purrr::map(.data$data, extract_component_tma, ...)))
   }
 
 #' Extract component tmas
