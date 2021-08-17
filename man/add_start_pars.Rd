@@ -2,18 +2,18 @@
 % Please edit documentation in R/add_start_pars.R
 \name{add_start_pars}
 \alias{add_start_pars}
-\title{add starting parameters}
+\title{Generate named list of starting parameters for dsfworld models}
 \usage{
 add_start_pars(by_var, ...)
 }
 \arguments{
-\item{by_var}{do this}
+\item{by_var}{A nested tibble, including estimate values, add_estimates().}
 
-\item{...}{do this}
+\item{...}{additional named arguments, which are passed to get_start_pars. In a standard workflow, this would include the names of the requested parameters. It could also include a lsit to overwrite the defaults for pars_defaults.}
 }
 \value{
-do this
+The input nested df, with an additional column named "pars", containing a names list of starting parameter estimates to be passed to nlsLM for model fitting.
 }
 \description{
-add starting parameters
+A wrapper function to apply get_start_pars across a tibble of nested dsf data, containg a column of calculated estimates for initial RFU and transitions, as added by add_estimates. Appends a column containing starting parameter estimates for a list of user-requested parameters (determined by the model to be fit).
 }
