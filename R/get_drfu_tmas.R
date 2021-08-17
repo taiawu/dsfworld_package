@@ -73,5 +73,5 @@ add_drfu_tmas <-
       rlang::as_string()
     out <-
       by_var %>%
-      dplyr::mutate("drfu_tma" = map(.data[[.data_col]], get_drfu_tmas, ...)[[1]]) # ensure only one tma
+      dplyr::mutate("drfu_tma" = purrr::map(.data[[.data_col]], get_drfu_tmas, ...)[[1]]) # ensure only one tma
   }
