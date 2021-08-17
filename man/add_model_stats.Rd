@@ -9,7 +9,7 @@ add_model_stats(by_var, ...)
 \arguments{
 \item{by_var}{A nested tibble, as output by add_nls()}
 
-\item{...}{additional named arguments, which is supplied here to serve the purpose of allowing irrelevant arguments passed from upstream functions using ... to be ignored.}
+\item{...}{additional named arguments, an argument supplied here to serve the purpose of allowing irrelevant arguments passed from upstream functions using ... to be ignored.}
 }
 \value{
 The input nested df, with an additional columns named "tidied", and "glanced" containing the outputs of broom::tidy and broom::glance, respectively.

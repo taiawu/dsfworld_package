@@ -1,7 +1,7 @@
 #' Add statistics
 #'
 #' @param by_var A nested tibble, as output by add_nls()
-#' @param ... additional named arguments, which is supplied here to serve the purpose of allowing irrelevant arguments passed from upstream functions using ... to be ignored.
+#' @param ... additional named arguments, an argument supplied here to serve the purpose of allowing irrelevant arguments passed from upstream functions using ... to be ignored.
 #'
 #' @return The input nested df, with an additional columns named "tidied", and "glanced" containing the outputs of broom::tidy and broom::glance, respectively.
 #'
