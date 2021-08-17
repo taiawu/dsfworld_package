@@ -1,9 +1,13 @@
 #' Calculate apparent melting temperatures using first derivative
 #'
+#' I AM NOT SURE THAT THE DEFAULT LOESS SPAN IS APPROPRIATE!! It's just the default in R. Follow up on this.
+#'
 #' @param data a tibble for a single dataset containing temperature and dRFU (first derivative) as columns
 #' @param .x_vec name of the column containing temperature data
 #' @param .y_vec name of the column containing dRFU data
-#' @param .precision precision with which to determine tma
+#' @param .precision a number, giving the precision with which to determine tma
+#' @param .loess_span a number, giving the span of the loess filter.
+#' @param ... Allows any irrelevant arguments that might have been passed from upstream functions using ... to be ignored. This is relevant when det_drfu_tmas might be included in a larger analysis workflow which makes use of ...
 #'
 #' @return a number; the interpolated maximum of the dRFU data
 #'
@@ -18,7 +22,9 @@ get_drfu_tmas <-
   function(data,
            .x_vec = "Temperature", # is Temperature
            .y_vec = "drfu_norm", # is drfu
-           .precision = 0.1) {
+           .precision = 0.1,
+           .loess_span = 0.75,
+           ...) {
 
     # handle either quoted or symbol inputs
     .x_vec <- as.name(substitute(.x_vec))
@@ -40,10 +46,9 @@ get_drfu_tmas <-
 
     grid <-
       tibble::tibble( x = seq(min(df$x), max(df$x), by = .precision)) %>%
-      modelr::add_predictions(loess(y ~ x, data = df, span = .precision))
+      modelr::add_predictions(loess(y ~ x, data = df, span = .loess_span))
 
     tma <- grid$x[which(grid$pred == max(grid$pred))][[1]] # 1 is incase there are ~equal maxes
-
   }
 
 

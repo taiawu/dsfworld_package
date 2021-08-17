@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_model_preds.R
 \name{add_model_preds}
 \alias{add_model_preds}
-\title{Title}
+\title{Add model predcition to nested data.}
 \usage{
 add_model_preds(by_var, ...)
 }
@@ -15,5 +15,5 @@ add_model_preds(by_var, ...)
 The input nested df, with the data column updated to include predictions for the individual sigmoids from the model fits.
 }
 \description{
-Title
+Add model predcition to nested data.
 }

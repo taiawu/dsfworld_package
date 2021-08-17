@@ -8,7 +8,9 @@ get_drfu_tmas(
   data,
   .x_vec = "Temperature",
   .y_vec = "drfu_norm",
-  .precision = 0.1
+  .precision = 0.1,
+  .loess_span = 0.75,
+  ...
 )
 }
 \arguments{
@@ -18,11 +20,15 @@ get_drfu_tmas(
 
 \item{.y_vec}{name of the column containing dRFU data}
 
-\item{.precision}{precision with which to determine tma}
+\item{.precision}{a number, giving the precision with which to determine tma}
+
+\item{.loess_span}{a number, giving the span of the loess filter.}
+
+\item{...}{Allows any irrelevant arguments that might have been passed from upstream functions using ... to be ignored. This is relevant when det_drfu_tmas might be included in a larger analysis workflow which makes use of ...}
 }
 \value{
 a number; the interpolated maximum of the dRFU data
 }
 \description{
-Calculate apparent melting temperatures using first derivative
+I AM NOT SURE THAT THE DEFAULT LOESS SPAN IS APPROPRIATE!! It's just the default in R. Follow up on this.
 }

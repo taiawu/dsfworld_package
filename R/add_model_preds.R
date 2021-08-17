@@ -1,4 +1,4 @@
-#' Title
+#' Add model predcition to nested data.
 #'
 #' @param by_var  A nested tibble, as output by add_nls()
 #' @param ... additional named arguments, passed to downstream functions. Also serves the purpose of allowing irrelevant arguments passed from upstream functions using ... to be ignored.
