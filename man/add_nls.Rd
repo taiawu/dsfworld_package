@@ -15,7 +15,7 @@ add_nls(by_var, formula, lower_bound, control_list = list(maxiter = 500), ...)
 
 \item{control_list}{a named list, passed directly to nlslM, to set controls for the fitting.}
 
-\item{...}{additional named arguments, which will be passed to the helper function get_nls. Also serves the purpose of allowing irrelevant}
+\item{...}{additional named arguments, which will be passed to the helper function get_nls. Also serves the purpose of allowing irrelevant arguments passed from upstream functions using ... to be ignored.}
 }
 \value{
 The input nested df, with an additional column named "model", containing the input formula fitted to the data. Is either an s3 model class, or s3 faild model class.
