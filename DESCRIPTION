@@ -32,7 +32,8 @@ Imports:
     tibble,
     quantmod,
     minpack.lm,
-    broom
+    broom,
+    stats
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
