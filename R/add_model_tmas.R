@@ -36,7 +36,7 @@ extract_component_tma <- function(data,
                                                                 value_norm = scales::rescale(.data$value, to = c(0,1)),
                                                                 drfu_norm = sgolay(.data$value_norm, m = 1)
     )),
-    tma = purrr::map(data, get_drfu_tmas, .x_vec = "Temperature_norm", .precision = 0.001, ...)[[1]])
+    tma = purrr::map(data, get_drfu_tmas, ...)[[1]])
 
   out <- df %>%
     dplyr::ungroup() %>%
