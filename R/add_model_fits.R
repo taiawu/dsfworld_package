@@ -98,7 +98,7 @@ get_model_fits <-
       add_nls(., ...) %>%
       add_model_stats(., ...) %>%
       add_model_preds(., ...)  %>%
-      add_model_tmas(.,  .x_vec = "Temperature_norm", .precision = 0.001)
+      add_model_tmas(.,  .x_vec = "Temperature_norm")
 
   }
 

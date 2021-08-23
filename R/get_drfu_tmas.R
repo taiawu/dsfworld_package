@@ -5,8 +5,8 @@
 #' @param data a tibble for a single dataset containing temperature and dRFU (first derivative) as columns
 #' @param .x_vec name of the column containing temperature data
 #' @param .y_vec name of the column containing dRFU data
-#' @param .precision a number, giving the precision with which to determine tma
-#' @param .loess_span a number, giving the span of the loess filter.
+#' @param .n_interp a number, giving the number of points to appear in the interpolation. Passed to stats::approx. Defaults to 50.
+#' @param .n_points_either_side a number, giving the number of points on either side of the dRFU maximum to carry forward into interpolation. Default is 1, which gives a three-point range for linear interpolation..
 #' @param ... Allows any irrelevant arguments that might have been passed from upstream functions using ... to be ignored. This is relevant when det_drfu_tmas might be included in a larger analysis workflow which makes use of ...
 #'
 #' @return a number; the interpolated maximum of the dRFU data
@@ -15,41 +15,57 @@
 #' @importFrom rlang as_string
 #' @importFrom glue glue
 #' @importFrom modelr add_predictions
-#' @importFrom stats loess
+#' @importFrom stats approx
 #'
 #' @export
 get_drfu_tmas <-
-  function(data,
-           .x_vec = "Temperature", # is Temperature
-           .y_vec = "drfu_norm", # is drfu
-           .precision = 0.1,
-           .loess_span = 0.75,
-           ...) {
+function(data,
+         .x_vec = "Temperature", # is Temperature
+         .y_vec = "drfu_norm", # is drfu
+         .n_interp = 50,
+         .n_points_either_side = 1,
+         ...) {
 
-    # handle either quoted or symbol inputs
-    .x_vec <- as.name(substitute(.x_vec))
-    .y_vec <- as.name(substitute(.y_vec))
+  # handle either quoted or symbol inputs
+  .x_vec <- as.name(substitute(.x_vec))
+  .y_vec <- as.name(substitute(.y_vec))
 
-    col_nm <- c(rlang::as_string(.x_vec),
-                rlang::as_string(.y_vec))
+  col_nm <- c(rlang::as_string(.x_vec),
+              rlang::as_string(.y_vec))
 
-    #_____Check input column names____
-    if (!all( col_nm %in% names(data))) { # ensure user columns present in df
-      abort_bad_argument("supplied column names not present in dataframe. All columns",
-                         must = glue::glue("be in dataframe names: {glue::glue_collapse(names(data), sep = ', ')}"),
-                         not = NULL ) }
+  #_____Check input column names____
+  if (!all( col_nm %in% names(data))) { # ensure user columns present in df
+    abort_bad_argument("supplied column names not present in dataframe. All columns",
+                       must = glue::glue("be in dataframe names: {glue::glue_collapse(names(data), sep = ', ')}"),
+                       not = NULL ) }
 
 
-    df <-
-      tibble::tibble(x =  data[[.x_vec]],
-                     y = data[[.y_vec]])
+  df <-
+    tibble::tibble(x =  data[[.x_vec]],
+                   y = data[[.y_vec]]) %>%
+    dplyr::mutate(ddrfu_norm = sgolay(.data$y, m = 1)) # use double deriv for linear fit
 
-    grid <-
-      tibble::tibble( x = seq(min(df$x), max(df$x), by = .precision)) %>%
-      modelr::add_predictions(loess(y ~ x, data = df, span = .loess_span))
 
-    tma <- grid$x[which(grid$pred == max(grid$pred))][[1]] # 1 is incase there are ~equal maxes
-  }
+  # extract the area of the local maximum
+  which_max_y <- which.max(df[["y"]]) # which measurement contains
+  first_meas <- which_max_y - .n_points_either_side
+  last_mmeas <- which_max_y + .n_points_either_side
+
+  df_local_max <- # df containining only the local region
+    df[c(first_meas:last_mmeas),]
+
+  # double deriv should be linear through zero at drfu max
+  appx <- # should be linear with negative slope
+    stats::approx(x = df_local_max$x,
+                  y = df_local_max$ddrfu_norm,
+                  method = "linear",
+                  n = .n_interp,
+                  rule = 1,
+                  f = 0,
+                  ties = mean)
+
+  tma <- appx$x[which(appx$y == min(abs(appx$y)))][[1]] # 1 is incase there are ~equal maxes
+}
 
 
 #' Add drfu tmas as a column to nested dsf data

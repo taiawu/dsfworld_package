@@ -8,8 +8,8 @@ get_drfu_tmas(
   data,
   .x_vec = "Temperature",
   .y_vec = "drfu_norm",
-  .precision = 0.1,
-  .loess_span = 0.75,
+  .n_interp = 50,
+  .n_points_either_side = 1,
   ...
 )
 }
@@ -20,9 +20,9 @@ get_drfu_tmas(
 
 \item{.y_vec}{name of the column containing dRFU data}
 
-\item{.precision}{a number, giving the precision with which to determine tma}
+\item{.n_interp}{a number, giving the number of points to appear in the interpolation. Passed to stats::approx. Defaults to 50.}
 
-\item{.loess_span}{a number, giving the span of the loess filter.}
+\item{.n_points_either_side}{a number, giving the number of points on either side of the dRFU maximum to carry forward into interpolation. Default is 1, which gives a three-point range for linear interpolation..}
 
 \item{...}{Allows any irrelevant arguments that might have been passed from upstream functions using ... to be ignored. This is relevant when det_drfu_tmas might be included in a larger analysis workflow which makes use of ...}
 }
