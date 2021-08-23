@@ -49,10 +49,10 @@ function(data,
   # extract the area of the local maximum
   which_max_y <- which.max(df[["y"]]) # which measurement contains
   first_meas <- which_max_y - .n_points_either_side
-  last_mmeas <- which_max_y + .n_points_either_side
+  last_meas <- which_max_y + .n_points_either_side
 
   df_local_max <- # df containining only the local region
-    df[c(first_meas:last_mmeas),]
+    df[c(first_meas:last_meas),]
 
   # double deriv should be linear through zero at drfu max
   appx <- # should be linear with negative slope

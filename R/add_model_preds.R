@@ -160,7 +160,8 @@ get_component_predictions <-
   function(tidied,
            data,
            temp_col = "Temperature_norm",
-           rescale_temp_col = TRUE, ...) {
+           rescale_temp_col = TRUE,
+           ...) {
     tryCatch({
       temp_vec <- data %>% pull({{ temp_col }})
 
@@ -176,7 +177,7 @@ get_component_predictions <-
         dplyr::select(.data$component, .data$comp_pred) %>%
         tidyr::unnest(cols = c(.data$comp_pred)) %>%
         set_names(c("which_value", temp_col, "value"))  %>%
-        mutate(!!temp_col := data %>% pull({{ temp_col }})) # replacing again with non-norm temperature
+        mutate(!!temp_col := data %>% pull({{ temp_col }}) %>% unique()) # replacing again with non-norm temperature
 
       out <-
         data %>%
