@@ -163,7 +163,10 @@ get_component_predictions <-
            rescale_temp_col = TRUE,
            ...) {
     tryCatch({
-      temp_vec <- data %>% pull({{ temp_col }})
+      temp_vec <-
+        data %>%
+        pull({{ temp_col }}) %>%
+        unique() # has vals for both resid and pred
 
       #### needs to be for temp norm
       if(rescale_temp_col) { temp_vec <- scales::rescale(temp_vec)}
