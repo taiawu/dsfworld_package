@@ -30,5 +30,5 @@ get_drfu_tmas(
 a number; the interpolated maximum of the dRFU data
 }
 \description{
-I AM NOT SURE THAT THE DEFAULT LOESS SPAN IS APPROPRIATE!! It's just the default in R. Follow up on this.
+Calculate apparent melting temperatures using first derivative
 }

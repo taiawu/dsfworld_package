@@ -1,6 +1,5 @@
 #' Calculate apparent melting temperatures using first derivative
 #'
-#' I AM NOT SURE THAT THE DEFAULT LOESS SPAN IS APPROPRIATE!! It's just the default in R. Follow up on this.
 #'
 #' @param data a tibble for a single dataset containing temperature and dRFU (first derivative) as columns
 #' @param .x_vec name of the column containing temperature data
@@ -19,53 +18,54 @@
 #'
 #' @export
 get_drfu_tmas <-
-function(data,
-         .x_vec = "Temperature", # is Temperature
-         .y_vec = "drfu_norm", # is drfu
-         .n_interp = 50,
-         .n_points_either_side = 1,
-         ...) {
+  function(data,
+           .x_vec = "Temperature", # is Temperature
+           .y_vec = "drfu_norm", # is drfu
+           .n_interp = 50,
+           .n_points_either_side = 1,
+           ...) {
 
-  # handle either quoted or symbol inputs
-  .x_vec <- as.name(substitute(.x_vec))
-  .y_vec <- as.name(substitute(.y_vec))
+    # handle either quoted or symbol inputs
+    .x_vec <- as.name(substitute(.x_vec))
+    .y_vec <- as.name(substitute(.y_vec))
 
-  col_nm <- c(rlang::as_string(.x_vec),
-              rlang::as_string(.y_vec))
+    col_nm <- c(rlang::as_string(.x_vec),
+                rlang::as_string(.y_vec))
 
-  #_____Check input column names____
-  if (!all( col_nm %in% names(data))) { # ensure user columns present in df
-    abort_bad_argument("supplied column names not present in dataframe. All columns",
-                       must = glue::glue("be in dataframe names: {glue::glue_collapse(names(data), sep = ', ')}"),
-                       not = NULL ) }
-
-
-  df <-
-    tibble::tibble(x =  data[[.x_vec]],
-                   y = data[[.y_vec]]) %>%
-    dplyr::mutate(ddrfu_norm = sgolay(.data$y, m = 1)) # use double deriv for linear fit
+    #_____Check input column names____
+    if (!all( col_nm %in% names(data))) { # ensure user columns present in df
+      abort_bad_argument("supplied column names not present in dataframe. All columns",
+                         must = glue::glue("be in dataframe names: {glue::glue_collapse(names(data), sep = ', ')}"),
+                         not = NULL ) }
 
 
-  # extract the area of the local maximum
-  which_max_y <- which.max(df[["y"]]) # which measurement contains
-  first_meas <- which_max_y - .n_points_either_side
-  last_meas <- which_max_y + .n_points_either_side
+    df <-
+      tibble::tibble(x =  data[[.x_vec]],
+                     y = data[[.y_vec]]) %>%
+      dplyr::mutate(ddrfu_norm = sgolay(.data$y, m = 1)) # use double deriv for linear fit
 
-  df_local_max <- # df containining only the local region
-    df[c(first_meas:last_meas),]
 
-  # double deriv should be linear through zero at drfu max
-  appx <- # should be linear with negative slope
-    stats::approx(x = df_local_max$x,
-                  y = df_local_max$ddrfu_norm,
-                  method = "linear",
-                  n = .n_interp,
-                  rule = 1,
-                  f = 0,
-                  ties = mean)
+    # extract the area of the local maximum
+    which_max_y <- which.max(df[["y"]]) # which measurement contains
+    first_meas <- which_max_y - .n_points_either_side
+    last_meas <- which_max_y + .n_points_either_side
 
-  tma <- appx$x[which(appx$y == min(abs(appx$y)))][[1]] # 1 is incase there are ~equal maxes
-}
+    df_local_max <- # df containining only the local region
+      df[c(first_meas:last_meas),]
+
+    # double deriv should be linear through zero at drfu max
+    appx <- # should be linear with negative slope
+      stats::approx(x = df_local_max$x,
+                    y = df_local_max$ddrfu_norm,
+                    method = "linear",
+                    n = .n_interp,
+                    rule = 1,
+                    f = 0,
+                    ties = mean)
+
+    tma <- appx$x[which.min(abs(appx$y))] # which.min returns the first occurance of the minimum
+
+  }
 
 
 #' Add drfu tmas as a column to nested dsf data
