@@ -35,7 +35,8 @@ Imports:
     broom,
     stats,
     ggplot2,
-    ggh4x
+    ggh4x,
+    ggpubr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
