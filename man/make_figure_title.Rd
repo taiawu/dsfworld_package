@@ -12,7 +12,8 @@ make_figure_title(
   .manual_exp_num = Sys.Date(),
   .manual_prot_name = "screened protein",
   .manual_buffer_name = "screening buffer",
-  .type_col = "type"
+  .type_col = "type",
+  ...
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ make_figure_title(
 \item{.manual_buffer_name}{a string, which, if .override_names is set to TRUE, is used as the third element of both plot title and saved name, where the name of the buffer typically appears.}
 
 \item{.type_col}{the name of the column which contains values of either "protein" or "buffer", which can be used to filter the input dataframe such that a single, unique name can be pulled from the .prot_name_col column for the protein (when filtered such that .type_col == "protein), or buffer (when filtered such that .type_col == "buffer").}
+
+\item{...}{tolerate unmatched arguments passed via .. from upstream functions; ignore if they don't match anything in this function}
 }
 \value{
 a names list with two named elements: "print" -- the name to be printed at the head of the plot, and "save" -- the name to be used to save the plot via ggsave. Additional elements can be appended to the save name in the saving functions, to specify which figure is being saved when more than one figure is saved for the same experiment. Specific paths to save to are also set in the save_* plot functions of this package.
