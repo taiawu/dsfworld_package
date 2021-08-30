@@ -56,10 +56,10 @@ extract_plate_layout <- # given a tibble of labeld data, extract just the layout
     if(.auto_detect) {
       layout_cols <-
         data %>%
-        dplyr::group_by({{ .var_col }}) %>% # each trace
+        dplyr::group_by(.data[[.var_col]]) %>% # each trace
         dplyr::summarise(dplyr::across(.cols = tidyselect::everything(),
                                        dplyr::n_distinct))  %>% # has only one value per layout variable
-        dplyr::select(where(~!any(. > 1))) %>%
+        dplyr::select(where(~!any(. > 1))) %>% # see utils::globalVariables() below--where() is not exported from tidyselect
         names()
 
     } else {
@@ -75,7 +75,7 @@ extract_plate_layout <- # given a tibble of labeld data, extract just the layout
 
 # known issue as of
 #  https://community.rstudio.com/t/where-is-not-an-exported-object-from-namespace-tidyselect/74911
-# foints to  https://github.com/r-lib/tidyselect/issues/201#issuecomment-650547846
+# points to  https://github.com/r-lib/tidyselect/issues/201#issuecomment-650547846
 # > checking dependencies in R code ... NOTE
 # Missing or unexported object: ‘tidyselect::where’
 # where() is not yet exported from tidyselect
