@@ -4,7 +4,13 @@
 \alias{pull_assigned}
 \title{Not exported: helper function to the \code{save_stacked_plots()} function.}
 \usage{
-pull_assigned(hits, assignment, .dye_col = "dye", .assign_col = "assignment")
+pull_assigned(
+  hits,
+  assignment,
+  .dye_col = "dye",
+  .assign_col = "assignment",
+  ...
+)
 }
 \arguments{
 \item{hits}{the tibble containing hit assignments. See the function documentation for \code{save_stacked_plots()} for more information.}
@@ -14,6 +20,8 @@ pull_assigned(hits, assignment, .dye_col = "dye", .assign_col = "assignment")
 \item{.dye_col}{a string, giving the name of the column in \code{'hits'} containing dye names.}
 
 \item{.assign_col}{a string, giving the name of the column in \code{'hits'} containin assignments.}
+
+\item{...}{additional arguments, passed from upstream functions. Passed to nothing; places here to enable the passing of named arguments in this function using ... from upstream functions, which ignoring arguments passed in the same ... which do not match anything here.}
 }
 \value{
 a character vector containing the names of the dyes which matched to the provided assignment.

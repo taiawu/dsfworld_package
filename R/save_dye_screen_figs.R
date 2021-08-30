@@ -340,16 +340,18 @@ save_stacked_plots <-
 #' @param assignment a string, giving the assignment for which dyes should be pulled.
 #' @param .dye_col a string, giving the name of the column in \code{'hits'} containing dye names.
 #' @param .assign_col a string, giving the name of the column in \code{'hits'} containin assignments.
+#' @param ... additional arguments, passed from upstream functions. Passed to nothing; places here to enable the passing of named arguments in this function using ... from upstream functions, which ignoring arguments passed in the same ... which do not match anything here.
 #'
 #' @return a character vector containing the names of the dyes which matched to the provided assignment.
 pull_assigned <-
   function(hits,
            assignment,
            .dye_col = "dye",
-
-           .assign_col = "assignment") {
+           .assign_col = "assignment",
+           ...) {
     hits[[.dye_col]][hits[[.assign_col]] == assignment]
   }
+
 
 #' Not exported: helper function for the \code{save_stacked_plots()} function.
 #'
@@ -364,6 +366,7 @@ pull_assigned <-
 #' @param .wrap_margin_ratio a number, giving the ratio between the height of a full panel and the height of just it's forced plot area, for wrapped facets. Defaults to 190/110, but this may be a bit too large for standard applications.
 #' @param .grid_margin_ratio a number, giving the ratio between the height of a full panel and the height of just it's forced plot area, for grid facets. Defaults to 190/110, but this may be a bit too large for standard applications.
 #' @param .title_height_add a number, giving a constant amount to add to each plot to accomodate single-appearance items like titles and legends.
+#' @param ... additional arguments, passed from upstream functions. Passed to nothing; places here to enable the passing of named arguments in this function using ... from upstream functions, which ignoring arguments passed in the same ... which do not match anything here.
 #'
 #' @return a number, giving the estimated height of a faceted plot created based on the variable defined in paneled-by
 convert_heights <-
@@ -373,7 +376,8 @@ convert_heights <-
             .ncol_wide = 10,
             .wrap_margin_ratio = 190/110,
             .grid_margin_ratio = 190/110,
-            .title_height_add = 1) {
+            .title_height_add = 1,
+            ...) {
 
     n_panels <-  length(unique(.paneled_by))
 

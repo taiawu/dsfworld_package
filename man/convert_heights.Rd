@@ -11,7 +11,8 @@ convert_heights(
   .ncol_wide = 10,
   .wrap_margin_ratio = 190/110,
   .grid_margin_ratio = 190/110,
-  .title_height_add = 1
+  .title_height_add = 1,
+  ...
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ convert_heights(
 \item{.grid_margin_ratio}{a number, giving the ratio between the height of a full panel and the height of just it's forced plot area, for grid facets. Defaults to 190/110, but this may be a bit too large for standard applications.}
 
 \item{.title_height_add}{a number, giving a constant amount to add to each plot to accomodate single-appearance items like titles and legends.}
+
+\item{...}{additional arguments, passed from upstream functions. Passed to nothing; places here to enable the passing of named arguments in this function using ... from upstream functions, which ignoring arguments passed in the same ... which do not match anything here.}
 }
 \value{
 a number, giving the estimated height of a faceted plot created based on the variable defined in paneled-by
