@@ -369,6 +369,8 @@ pull_assigned <-
 #' @param ... additional arguments, passed from upstream functions. Passed to nothing; places here to enable the passing of named arguments in this function using ... from upstream functions, which ignoring arguments passed in the same ... which do not match anything here.
 #'
 #' @return a number, giving the estimated height of a faceted plot created based on the variable defined in paneled-by
+#'
+#' @export
 convert_heights <-
   function( .paneled_by,
             .raw_panel_height = 0.4,

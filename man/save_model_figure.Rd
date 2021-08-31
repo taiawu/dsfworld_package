@@ -15,6 +15,7 @@ save_model_figure(
   layout = NULL,
   model_tmas = NULL,
   .well_col_layout = "variable",
+  .grid_margin_ratio = 215/110,
   ...
 )
 }
@@ -38,6 +39,8 @@ save_model_figure(
 \item{model_tmas}{if extract_tmas_from_by_var_fit is FALSE, a tibble containing the extracted model tmas, formatted to match the output of \code{extract_model_tmas()}.}
 
 \item{.well_col_layout}{a string, giving the name of the column containing well names in \code{tidied_for_tmas}, which is renamed ".var" if extract_layout_from_tidied = TRUE.}
+
+\item{.grid_margin_ratio}{a number, passed to \code{convert_heights()}, estimating the height ratio between a full panel (including, e.g. axis ticks and labels), and the fixed panel size.}
 
 \item{...}{additional named parameters, passed to the functions: \code{extract_plate_layout()}, \code{join_with_preds()}, \code{tidied_for_plot()}, \code{plot_analyzed_hits()}, \code{force_panel_sizing()}, and \code{save_stacked_plots()}}
 }

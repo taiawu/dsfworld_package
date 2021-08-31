@@ -462,6 +462,7 @@ plot_analyzed_hits <-
 #' @param layout if extract_layout_from_tidied is FALSE, a tibble containig a layout, as returned by \code{read_plate_layout} or \code{extract_plate_layout}. Gets passed to \code{tidy_for_plot()} in this function.
 #' @param model_tmas if extract_tmas_from_by_var_fit is FALSE, a tibble containing the extracted model tmas, formatted to match the output of \code{extract_model_tmas()}.
 #' @param .well_col_layout a string, giving the name of the column containing well names in \code{tidied_for_tmas}, which is renamed ".var" if extract_layout_from_tidied = TRUE.
+#' @param .grid_margin_ratio a number, passed to \code{convert_heights()}, estimating the height ratio between a full panel (including, e.g. axis ticks and labels), and the fixed panel size.
 #' @param ... additional named parameters, passed to the functions: \code{extract_plate_layout()}, \code{join_with_preds()}, \code{tidied_for_plot()}, \code{plot_analyzed_hits()}, \code{force_panel_sizing()}, and \code{save_stacked_plots()}
 #'
 #' @return if assigned, the final figure object. regardless of assignment, a saved figure, with names, directories, and file types as dictated by \code{save_stacked_plots()}. Uses \code{save_stacked_plots()} defaults, unless these arguments are overwritten by passing new named values for them to this function.
@@ -478,6 +479,7 @@ save_model_figure <-
            layout = NULL, # linked to extract_layout_from_tidied; user supplies here
            model_tmas = NULL, # linked to extract_tmas_from_by_var_fit; user supplies here
            .well_col_layout = "variable",
+           .grid_margin_ratio = 215/110,
            ... # passed to join_with_preds, tidy_for_plot, and/or plot_analyzed_hits
   ) {
 
@@ -532,15 +534,17 @@ save_model_figure <-
       dplyr::pull(.data$dye_channel_f)
 
     save_height <- convert_heights(.paneled_by = hits,
-                                   .facet_type = "grid")
+                                   facet_type = "grid",
+                                   .grid_margin_ratio = .grid_margin_ratio,
+                                   .title_height_add = 0.3)
 
     save_stacked_plots(.plot_list = list(p_hits),
                        .figure_titles = fig_titles,
                        .plot_heights = c(save_height),
-                       .default_width = 7,
+                       .default_width = 6,
                        .save_suffix = "with_model_preds",
-                       ...
-    )
+                       .default_title_height = 0.5,
+                       ...)
 
     out <- p_hits
 
