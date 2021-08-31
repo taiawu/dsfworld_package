@@ -9,7 +9,7 @@ save_stacked_plots(
   .figure_titles,
   .plot_heights,
   .default_width = 10,
-  .default_title_height = 2,
+  .default_title_height = 0.5,
   .use_common_legend = TRUE,
   .common_legend_position = "top",
   .override_fig_title = FALSE,

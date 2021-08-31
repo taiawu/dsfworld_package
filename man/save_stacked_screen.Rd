@@ -4,7 +4,7 @@
 \alias{save_stacked_screen}
 \title{Create and save full dye screen, sub-plotted by assignment}
 \usage{
-save_stacked_screen(tidied_screen, hits, ratio_marg = 150/110, ...)
+save_stacked_screen(tidied_screen, hits, ratio_marg = 190/110, ...)
 }
 \arguments{
 \item{tidied_screen}{a tibble containing raw data from a dye screen, both protein and buffer, e.g. as output by the \code{tidy_dye_screen()} function.}

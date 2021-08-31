@@ -78,7 +78,7 @@ save_dye_screen_figs <-
 save_stacked_screen <-
   function(tidied_screen,
            hits,
-           ratio_marg = 150/110,
+           ratio_marg = 190/110,
            ...) {
 
     dyes <-
@@ -268,7 +268,7 @@ save_stacked_plots <-
            .plot_heights,
 
            .default_width = 10,
-           .default_title_height = 2,
+           .default_title_height = 0.5,
 
            .use_common_legend = TRUE,
            .common_legend_position = "top",
@@ -377,8 +377,8 @@ convert_heights <-
             facet_type = "wrap",
             .ncol_wide = 10,
             .wrap_margin_ratio = 190/110,
-            .grid_margin_ratio = 190/110,
-            .title_height_add = 1,
+            .grid_margin_ratio = 150/110,
+            .title_height_add = 0.3,
             ...) {
 
     n_panels <-  length(unique(.paneled_by))

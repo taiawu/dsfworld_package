@@ -10,8 +10,8 @@ convert_heights(
   facet_type = "wrap",
   .ncol_wide = 10,
   .wrap_margin_ratio = 190/110,
-  .grid_margin_ratio = 190/110,
-  .title_height_add = 1,
+  .grid_margin_ratio = 150/110,
+  .title_height_add = 0.3,
   ...
 )
 }
