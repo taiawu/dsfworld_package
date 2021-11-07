@@ -42,7 +42,7 @@ read_plate_layout <- function(filepath) {
   # convert into layout form
   out %>%
     set_names( c("variable", "row", .[1,][-c(1,2)])) %>%
-    filter(row %in% base::LETTERS[1:16]) %>%
+    filter(row %in% c(base::letters[1:16],base::LETTERS[1:16])) %>%
     discard(~all(is.na(.x)))  %>% # drop columns if everything is NA
     filter(if_all(everything(), ~ !is.na(.x))) %>%
     mutate(across(everything(), as.character)) %>% # make all character, to prevent issues in pivot
