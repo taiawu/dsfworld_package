@@ -28,8 +28,8 @@ tidy_dye_screen(
 \item{.raw_layout}{a long-form tibble containing plate layout information for the supplied raw data. Must include columns containing information on each of the following things:
 #' \itemize{
 \item \strong{well}, or some other individual reaction-identifying information which matches the identifying column in the supplied data.nThis column is coerced to character-type in the output of this function.
-\item \strong{dye}, giving a unique identifying name for the dye that was present in a well. This column is coerced to character-type in the output of this function.
-\item \strong{dye concentration}, a column giving the concentration (in uM) at which the dye was tested. This column is coerced to numeric-type in the output of this function. uM units are not precisely necessary, but the default name of this column for processing is "dye_conc_uM", so non-uM units may lead to misleading column labeling if default column names are used.
+\item \strong{dye}, giving a unique identifying name for the dye that was present in a well. This column is coerced to character-type in the output of this function. By default, assumes this column is named "final_compound". To reset, enter your column name for the argument ".dye_col". This argument is passed via ... to label_dye_screen().
+\item \strong{dye concentration}, a column giving the concentration (in uM) at which the dye was tested. This column is coerced to numeric-type in the output of this function. uM units are not precisely necessary, but the default name of this column for processing is "dye_conc_uM", so non-uM units may lead to misleading column labeling if default column names are used. By default, assumes this column is named "final_concentration". To reset, enter your column name for the argument ".dye_conc_col". This argument is passed via ... to label_dye_screen().
 }}
 
 \item{.buffer_data}{the same as .raw_data, but data is from a no-protein control.}
@@ -61,5 +61,5 @@ a tibble, containing data for a labeled dye screen, containing both protein and 
 }
 }
 \description{
-Combine protein and buffer dye screening data, and output a dye screening dataframe, tidied for downstream analysis.
+Combine protein and buffer dye screening data, and output a dye screening dataframe, tidied for downstream analysis. Assumes particular
 }
