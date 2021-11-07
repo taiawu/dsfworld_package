@@ -11,6 +11,29 @@
 # ------------------------- convert_heights()
 # ------------------------- pull_assigned()
 
+
+#' Create blank ggplot with a label
+#'
+#' The \code{blank_label_plot()} function is used to generate a blank plot which prints a given string of text. Used in the \code{save_*_screen()} family functions, to handle cases where one of the expected assignments (e.g. "hit", "sensitive", "none") have been given to no dyes.
+#'
+#' @param .text a character string, appended after .text_preamble, and printed to the blank plot. Typically used to pass assignment to the label, e.g "hit"
+#' @param .text_preamble a character string, which appears directly before .text. Defaults to No dyes with assignment: "
+#' @param ... additional named arguments, passed to \code{geom_text()}
+#'
+#' @return a ggplot2 object containing a blank plot with \code{theme_void()}, with the specified label. Will appear just as text when displayed.
+#' @export
+blank_label_plot <-
+  function(.text,
+           .text_preamble = "No dyes with assignment: ",
+           ...) {
+    print("making blank plot")
+    plot_label <- glue::glue("{.text_preamble}{.text}")
+    p <-  # make a blank
+      ggplot2::ggplot() +
+      ggplot2::geom_text(aes(x = 0, y = 0, label = plot_label, ...)) +
+      ggplot2::theme_void()
+  }
+
 #' Save dye screen figures
 #'
 #' The \code{save_dye_screen_figs()} function is used to quickly generate and save three of the four standard raw data figures in a dye screening workflow. See the 'Details' section below for more information on each of these plots.
@@ -48,6 +71,7 @@ save_dye_screen_figs <-
                   "divided" =  save_stacked_screen(tidied_screen, hits, ...),
                   "hits_by_channel" = save_stacked_hits(tidied_screen, hits, ...))
   }
+
 
 #' Create and save full dye screen, sub-plotted by assignment
 #'
@@ -96,18 +120,42 @@ save_stacked_screen <-
 
     fig_title <- make_figure_title(tidied_screen, ...)
 
+    ####
+    if(length(dyes$hits) > 0) { # if there are hits
+      p_hits <- # make the hit plot
+        plot_subscreen(tidied_screen, dyes$hits, plot_title = "Hit dyes")
+    } else { # if there are no hits,
+      p_hits <-  blank_label_plot("Hit")
+      plot_heights[[1]] <- 1
+    }
+
+    if(length(dyes$sensitivies) > 0) {
+      p_sens <- plot_subscreen(tidied_screen, dyes$sensitivies, plot_title = "Sensitive dyes")
+    } else {
+      p_sens <- blank_label_plot("Sensitive")
+      plot_heights[[2]] <- 1
+    }
+
+    if(length(dyes$none) > 0) {
+      p_nones <- plot_subscreen(tidied_screen, dyes$nones, plot_title = "Non-hitting, insensitive dyes")
+    } else {
+      p_nones <- blank_label_plot("unresponsive")
+      plot_heights[[3]] <- 1
+    }
+
     screen_plots <-
-      list("p_hits" = plot_subscreen(tidied_screen, dyes$hits, plot_title = "Hit dyes"),
-           "p_sens" = plot_subscreen(tidied_screen, dyes$sensitivies, plot_title = "Sensitive dyes"),
-           "p_nones"= plot_subscreen(tidied_screen, dyes$nones, plot_title = "Non-hitting, insensitive dyes"))
+      list("p_hits" = p_hits,
+           "p_sens" = p_sens,
+           "p_nones"= p_nones)
 
     p_assembled <-
       save_stacked_plots(.plot_list = screen_plots,
-                          .figure_titles = fig_title,
-                          .plot_heights = plot_heights,
-                          save_fig = TRUE,
-                          ...)
+                         .figure_titles = fig_title,
+                         .plot_heights = plot_heights,
+                         save_fig = TRUE,
+                         ...)
   }
+
 
 
 #' Create and save dyes called as "hits" or "sensitives" in a dye screen
@@ -147,16 +195,6 @@ save_stacked_hits <-
       list(hits = pull_assigned(hits, "hit"),
            sensitivies = pull_assigned(hits, "sensitive"))
 
-    hit_plots <-
-      list("p_hits" = plot_subscreen(tidied_screen,
-                                     dyes$hits,
-                                     plot_title = "Hit dyes",
-                                     .facet_type = "grid"),
-
-           "p_sens" = plot_subscreen(tidied_screen,
-                                     dyes$sensitivies,
-                                     plot_title = "Sensitive dyes",
-                                     .facet_type = "grid"))
     hit_plot_heights <-
       c(convert_heights(dyes$hits,
                         .grid_margin_ratio = ratio_marg,
@@ -166,19 +204,46 @@ save_stacked_hits <-
                         facet_type = "grid",
                         .grid_margin_ratio  = ratio_marg))
 
+
+    if(length(dyes$hits) > 0) { # if there are hits
+      p_hits <- # make the hit plot
+        plot_subscreen(tidied_screen,
+                       dyes$hits,
+                       plot_title = "Hit dyes",
+                       .facet_type = "grid")
+    } else { # if there are no hits,
+      p_hits <-  blank_label_plot("Hit")
+      hit_plot_heights[[1]] <- 1
+    }
+
+    if(length(dyes$sensitivies) > 0) {
+      p_sens <- plot_subscreen(tidied_screen,
+                               dyes$sensitivies,
+                               plot_title = "Sensitive dyes",
+                               .facet_type = "grid")
+    } else {
+      p_sens <- blank_label_plot("Sensitive")
+      hit_plot_heights[[2]] <- 1
+    }
+
+    hit_plots <-
+      list("p_hits" <- p_hits,
+           "p_sens" = p_sens)
+
     fig_title <- make_figure_title(tidied_screen)
 
     p_assembled_hits <-
       save_stacked_plots(.plot_list = hit_plots,
-                          .figure_titles = fig_title,
-                          .plot_heights = hit_plot_heights,
-                          .save_suffix = "hits_by_channel",
-                          .override_save_width = TRUE,
-                          .manual_save_width = 6,
-                          save_fig = TRUE,
-                          ...)
+                         .figure_titles = fig_title,
+                         .plot_heights = hit_plot_heights,
+                         .save_suffix = "hits_by_channel",
+                         .override_save_width = TRUE,
+                         .manual_save_width = 6,
+                         save_fig = TRUE,
+                         ...)
 
   }
+
 
 #' Create and save all raw data from the screen, before hit/sensitive assignment.
 #'
