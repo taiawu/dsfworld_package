@@ -1,2 +1,88 @@
-template:
-  bootstrap: 5
+home:
+  title: An R package for DSF data analysis
+  description: >
+    Partner package to dsfworld website.
+    Currently, this contains both dye screening and DSFworld code. Ultimately, the dye screening code will be it's own package.
+    Keywords: Differential Scanning Fluorimetry, DSF, Thermofluor, Thermal Shift Assay
+
+reference:
+- title: "Extract apparent melting temperatures"
+  desc: >
+    By model fitting or dFU
+- contents:
+  - add_component_predictions
+  - add_drfu_tmas
+  - add_estimates
+  - add_model_fits
+  - add_model_preds
+  - add_model_stats
+  - add_model_tmas
+  - add_nls
+  - add_standard_preds
+  - add_start_pars
+  - annotate_tidied_components
+  - cluster_estimates
+  - estimate_one
+  - extract_component_tma
+  - extract_model_tmas
+  - get_component_exprs
+  - get_component_predictions
+  - get_drfu_tmas
+  - get_estimates
+  - get_model_fits
+  - get_nls
+  - get_start_pars
+  - hclust_points
+  - join_with_preds
+  - predict_component
+  - rank_estimates
+  - sgolay
+  - tidy_estimates
+  - tidy_for_plot
+
+- title: "Dye screening"
+  desc: >
+    Process dye screens. Ultimately will be it's own package, which will depend on dsfworld.
+- contents:
+  - label_dye_screen
+  - plot_analyzed_hits
+  - tidy_dye_screen
+  - save_dye_screen_figs
+  - save_full_screen
+  - save_model_figure
+  - save_stacked_hits
+  - save_stacked_plots
+  - save_stacked_screen
+
+- title: "Utilities"
+  desc: >
+    Random utility functions
+- contents:
+  - abort_bad_argument
+  - drop_and_pivot
+  - plot_dye_screen
+  - plot_subscreen
+  - plot_with_preds
+
+- title: "Plotting functions"
+  desc: >
+    Functions for plotting
+- contents:
+  - add_facet_grid
+  - add_facet_wrap_10
+  - blank_label_plot
+  - convert_heights
+  - force_panel_sizing
+  - make_figure_title
+  - theme_screen_austere
+
+- title: "Handle raw data"
+  desc: >
+    Reading and annotating data
+- contents:
+  - read_qtower
+  - extract_plate_layout
+  - label_data
+  - pull_assigned
+  - read_plate_layout
+  - tidy_for_tmas
