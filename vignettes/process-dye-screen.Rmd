@@ -71,62 +71,62 @@ fs::dir_create(int_folder)
 
 Assign directories to files that need to be read
 ```{r}
-protein_layout_path <- "layout/layout_861_rank_ordered_dye_daughters.xlsx" #__USER_UPDATES__# in this case, the same for protein and buffer
-buffer_layout_path <- "layout/layout_861_rank_ordered_dye_daughters.xlsx" #__USER_UPDATES__# in this case, the same for protein and buffer
-
-raw_protein_path <- "raw/Exp1152--20210519_SP115_NHR23LBD_dye_screen_861.csv" #__USER_UPDATES__
-raw_buffer_path <- "raw/Exp0724--20191017_OGlcNacTransferase_SP029_buffer_dye_screen_715.csv" #__USER_UPDATES__
-
-# protein and buffer data don't need the have the same layout. 
-# if the layouts are different, read both in, and pass both to tidied_dye_screen(). See below. 
+# protein_layout_path <- "layout/layout_861_rank_ordered_dye_daughters.xlsx" #__USER_UPDATES__# in this case, the same for protein and buffer
+# buffer_layout_path <- "layout/layout_861_rank_ordered_dye_daughters.xlsx" #__USER_UPDATES__# in this case, the same for protein and buffer
+# 
+# raw_protein_path <- "raw/Exp1152--20210519_SP115_NHR23LBD_dye_screen_861.csv" #__USER_UPDATES__
+# raw_buffer_path <- "raw/Exp0724--20191017_OGlcNacTransferase_SP029_buffer_dye_screen_715.csv" #__USER_UPDATES__
+# 
+# # protein and buffer data don't need the have the same layout. 
+# # if the layouts are different, read both in, and pass both to tidied_dye_screen(). See below. 
 ```
 
 Step 1: Read in the raw screens and layouts
 ```{r}
-##### unless you want to 
-protein_layout <- # check out documentation--this layout reader is more flexible than the one on the websites
-  read_plate_layout(protein_layout_path)
-
-buffer_layout <- # check out documentation--this layout reader is more flexible than the one on the websites
-  read_plate_layout(buffer_layout_path)
-
-raw_protein <- # path to a raw qTower csv
-  read_qtower(raw_protein_path)
-
-raw_buffer <- # path to a raw qTower csv
-  read_qtower(raw_buffer_path)
-
-tidied_screen <- # creates / enforces expectations on the data structure of dye screens
-  tidy_dye_screen(.raw_data = raw_protein,
-                  .raw_layout = protein_layout,
-                  .buffer_data = raw_buffer,
-                  .buffer_layout = buffer_layout,
-                  .protein_name = set_protein_name,
-                  .exp_num = set_screen_num,
-                  .buffer_used = set_buffer_used,
-                  
-                  ####  these arguments are passed to label_dye_screen via() ...
-                  #  defaults column names correspond to the echowritr package outputs. 
-                  # see documentation for label_dye_screen() FMI
-                  .dye_col = "compound", #__USER_UPDATES__
-                  .dye_conc_col = "concentration" #__USER_UPDATES__
-                  )
+# ##### unless you want to 
+# protein_layout <- # check out documentation--this layout reader is more flexible than the one on the websites
+#   read_plate_layout(protein_layout_path)
+# 
+# buffer_layout <- # check out documentation--this layout reader is more flexible than the one on the websites
+#   read_plate_layout(buffer_layout_path)
+# 
+# raw_protein <- # path to a raw qTower csv
+#   read_qtower(raw_protein_path)
+# 
+# raw_buffer <- # path to a raw qTower csv
+#   read_qtower(raw_buffer_path)
+# 
+# tidied_screen <- # creates / enforces expectations on the data structure of dye screens
+#   tidy_dye_screen(.raw_data = raw_protein,
+#                   .raw_layout = protein_layout,
+#                   .buffer_data = raw_buffer,
+#                   .buffer_layout = buffer_layout,
+#                   .protein_name = set_protein_name,
+#                   .exp_num = set_screen_num,
+#                   .buffer_used = set_buffer_used,
+#                   
+#                   ####  these arguments are passed to label_dye_screen via() ...
+#                   #  defaults column names correspond to the echowritr package outputs. 
+#                   # see documentation for label_dye_screen() FMI
+#                   .dye_col = "compound", #__USER_UPDATES__
+#                   .dye_conc_col = "concentration" #__USER_UPDATES__
+#                   )
 ```
 
 Step 2: save the tidied screen
 ```{r}
-write_rds(x = tidied_screen,
-          file = glue::glue("{int_folder}/{set_screen_num}--{glue::glue_collapse(gsub(Sys.Date(), pattern = '-', replacement = ''))}_{set_protein_name}_df_all.rds"))
+# write_rds(x = tidied_screen,
+#           file = glue::glue("{int_folder}/{set_screen_num}--{glue::glue_collapse(gsub(Sys.Date(), pattern = '-', replacement = ''))}_{set_protein_name}_df_all.rds"))
 ```
 
 Make the standard dye screen plot
 ```{r}
-full_screen_p <- # takes a minute
-  save_dye_screen_figs(tidied_screen, 
-                       plot_type = "full_screen",
-                       
-                       # passed to saved_stacked_screen() via ...
-                       .save_path = plot_folder)
+# full_screen_p <- # takes a minute
+#   save_dye_screen_figs(tidied_screen, 
+#                        plot_type = "full_screen",
+#                        
+#                        # passed to saved_stacked_screen() via ...
+#                        .save_path = plot_folder)
 ```
 
 Call hits
@@ -137,66 +137,66 @@ If you already have this manual assignments csv saved and read it in via
 hit_df <- read_csv(<path to your csv>)
 You can then bypass the creation and saving to hit_df (next two chunks)
 ```{r}
-####### USER UPDATES THESE ASSIGNMENTS WITH EACH SCREEN
-## ---- look at the raw data plot to make decisions
-hit_dyes <- # called just a couple, to illustrate example
-  c("A002" ,"A014", "TW408") #__USER_UPDATES__
-
-sensitive_dyes <- # called just a couple, to illustrate example
-  c( "A003", "L098", "L098") #__USER_UPDATES__
+# ####### USER UPDATES THESE ASSIGNMENTS WITH EACH SCREEN
+# ## ---- look at the raw data plot to make decisions
+# hit_dyes <- # called just a couple, to illustrate example
+#   c("A002" ,"A014", "TW408") #__USER_UPDATES__
+# 
+# sensitive_dyes <- # called just a couple, to illustrate example
+#   c( "A003", "L098", "L098") #__USER_UPDATES__
 ```
 
 Create the assignment df from the user-defined hits
 ```{r}
-hit_df <-
-  # initially, assign every dye "none" 
-  tibble(dye = unique(tidied_screen$dye),
-         assignment = "none") %>%
-  
-  mutate(assignment = if_else(dye %in% hit_dyes, # amend if "hit"
-                              true = "hit",
-                              false = assignment),
-         assignment = if_else(dye %in% sensitive_dyes, # amend if "sensitive
-                              true = "sensitive",
-                              false = assignment))
-
-hit_df # see requirements for hit_df in the documentation ofr save_dye_screen_figs()
-
-assignment_df_name <- glue::glue("{set_screen_num}--{glue::glue_collapse(gsub(Sys.Date(), pattern = '-', replacement = ''))}_{set_protein_name}_manual_assignments")
-
-# save as an rds
-write_rds(x = hit_df, 
-          file = glue::glue("{assignments_folder}/{assignment_df_name}.rds"))
-
-# save as a csv
-write_csv(x = hit_df, 
-          file = glue::glue("{assignments_folder}/{assignment_df_name}.csv"))
+# hit_df <-
+#   # initially, assign every dye "none" 
+#   tibble(dye = unique(tidied_screen$dye),
+#          assignment = "none") %>%
+#   
+#   mutate(assignment = if_else(dye %in% hit_dyes, # amend if "hit"
+#                               true = "hit",
+#                               false = assignment),
+#          assignment = if_else(dye %in% sensitive_dyes, # amend if "sensitive
+#                               true = "sensitive",
+#                               false = assignment))
+# 
+# hit_df # see requirements for hit_df in the documentation ofr save_dye_screen_figs()
+# 
+# assignment_df_name <- glue::glue("{set_screen_num}--{glue::glue_collapse(gsub(Sys.Date(), pattern = '-', replacement = ''))}_{set_protein_name}_manual_assignments")
+# 
+# # save as an rds
+# write_rds(x = hit_df, 
+#           file = glue::glue("{assignments_folder}/{assignment_df_name}.rds"))
+# 
+# # save as a csv
+# write_csv(x = hit_df, 
+#           file = glue::glue("{assignments_folder}/{assignment_df_name}.csv"))
 ```
 
 Save the by-hit dye figures
 ```{r}
-##--- plots the same data as the original plot, but broken into sub-plots by assignment
-full_stacked_screen_p <- 
-   # notice this is the same function used to save the original screen
-  save_dye_screen_figs(tidied_screen, 
-                       plot_type = "divided", # this argument determines which plot is output
-                       hits = hit_df, # only "full_screen" does not require this argument 
-                       # passed to saved_stacked_screen() via ...
-                       .save_path = "plots")
-# sometimes prints this warning, which is nbd. Something about the sub-plot alignment probably need a minor fix but the output plot is fine.
-# `Graphs cannot be vertically aligned unless the axis parameter is set. Placing graphs unaligned.`
-
-##--- plots the hits and sensitives, this time, faceting by channel.
-full_stacked_screen_p <- 
-   # notice this is the same function used to save the original screen
-  save_dye_screen_figs(tidied_screen, 
-                       plot_type = "hits_by_channel", # this argument determines which plot is output
-                       hits = hit_df, # only "full_screen" does not require this argument 
-                       # passed to saved_stacked_screen() via ...
-                       .save_path = "plots",
-                       
-                       # increasing `.default_title_height` over it's default (0.5) adds some height to the figure if it's too short, and clipping axes. 
-                       # works like this for all save_dye_screen_figs plots.
-                       .default_title_height = 2 
-                       )
+# ##--- plots the same data as the original plot, but broken into sub-plots by assignment
+# full_stacked_screen_p <- 
+#    # notice this is the same function used to save the original screen
+#   save_dye_screen_figs(tidied_screen, 
+#                        plot_type = "divided", # this argument determines which plot is output
+#                        hits = hit_df, # only "full_screen" does not require this argument 
+#                        # passed to saved_stacked_screen() via ...
+#                        .save_path = "plots")
+# # sometimes prints this warning, which is nbd. Something about the sub-plot alignment probably need a minor fix but the output plot is fine.
+# # `Graphs cannot be vertically aligned unless the axis parameter is set. Placing graphs unaligned.`
+# 
+# ##--- plots the hits and sensitives, this time, faceting by channel.
+# full_stacked_screen_p <- 
+#    # notice this is the same function used to save the original screen
+#   save_dye_screen_figs(tidied_screen, 
+#                        plot_type = "hits_by_channel", # this argument determines which plot is output
+#                        hits = hit_df, # only "full_screen" does not require this argument 
+#                        # passed to saved_stacked_screen() via ...
+#                        .save_path = "plots",
+#                        
+#                        # increasing `.default_title_height` over it's default (0.5) adds some height to the figure if it's too short, and clipping axes. 
+#                        # works like this for all save_dye_screen_figs plots.
+#                        .default_title_height = 2 
+#                        )
 ```
