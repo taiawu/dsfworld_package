@@ -8,7 +8,8 @@ test_that("read_plate_layout returns a tibble", {
 test_that("read_layout returns correct column types", {
   expect_equal(
     unname(unlist(lapply(test_data, class))),
-    c("character", #"row"
+    c("character", #"well",
+      "character", #"row"
       "numeric",   #"column"
       "character", #"condition"
       "character", #"compound"
@@ -16,8 +17,7 @@ test_that("read_layout returns correct column types", {
       "numeric",   #"volume"
       "character", #"protein"
       "character", #"ligand"
-      "numeric",   #"ligand_conc"
-      "character" #"well"
+      "numeric"   #"ligand_conc"
     )
   )
 })

@@ -56,7 +56,7 @@ read_plate_layout <- function(filepath, .empty_vals = c("Empty", "empty", NA)) {
     mutate(across(everything(), as.character)) |> # make all character, to prevent issues in pivot
     pivot_longer(-c("variable", "row"), names_to = "column", values_to = "value") |>
     pivot_wider(names_from = "variable", values_from = "value") |>
-    mutate(well = paste0("row", "column")) |> # make well column
+    unite(well, c("row", "column"), sep = "", remove = FALSE) |>
     unite(condition, -c("row", "column", "well"), sep = "__", remove = FALSE)  |> # make condition column
     filter(if_all(-c("well", "row", "column", "condition"), \(x) !x %in% .empty_vals)) |>
     mutate(across(everything(), parse_guess)) # convert likely numeric variables to numeric
