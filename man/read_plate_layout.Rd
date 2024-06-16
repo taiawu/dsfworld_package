@@ -4,13 +4,21 @@
 \alias{read_plate_layout}
 \title{Read a plate layout file into a tibble}
 \usage{
-read_plate_layout(filepath)
+read_plate_layout(filepath, .empty_vals = c("Empty", "empty", NA))
 }
 \arguments{
 \item{filepath}{A complete file path, pointing to the plate layout file}
+
+\item{.empty_vals}{A vector containing all values which signify an empty well.}
 }
 \value{
-Returns a tibble, mapping experimental variables to well positions. All outputs contain the columns: row, column, and well. Additionally, a single column is added for each user-defined variable in the plate layout file, from which one additional "condtion" column is created, which contains all experimental variables. If all experimental variables are defined in the layout, wells with identical entries in the "condition" column are technical replicates.
+Returns a tibble, mapping experimental variables to well positions. All outputs contain the columns: row, column, and well.
+
+A single column is added containing the values for all user-defined variables, separated by '__'. If all experimental variables are defined in the layout, wells with identical entries in the "condition" column are technical replicates.
+
+Column types for each variable (e.g. character, numeric) are guessed using \code{readr::parse_guess()}.
+
+Wells for which all variables contain one of the "empty well" values supplied to the argument \code{.empty_vals} are dropped from the layout.
 }
 \description{
 read_layout() reads a plate layout file (.csv, .txt, .xls, or .xlsx), and returns it as a formatted tibble. Variable types are guessed with readr::parse_guess(). The originally required "Type" column heading is now optional.

@@ -7,6 +7,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
+<!-- NOT YET RUNNING THIS VIGNETTE! SAVED HERE FOR LATER EDIT. -->
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -38,35 +40,35 @@ Where I think you'll have to make changes with each screen, i added #__USER_UPDA
 
 Read in libraries
 ```{r}
-# these three packaged are used in workflow in this notebook
-library(tidyverse) # actually a suite of packages
-library(fs) # nice filesystem management, used by/with the tidyverse
-library(glue) # nice alternative to paste functions, used to create screen and save names, and used by/with the tidyverse
-
-# this has all of the actual code for processing dye screens
-library(dsfworld) # you'll likely have to replace this with a series of "source()" calls with the R script names containing the functions. 
+# # these three packaged are used in workflow in this notebook
+# library(tidyverse) # actually a suite of packages
+# library(fs) # nice filesystem management, used by/with the tidyverse
+# library(glue) # nice alternative to paste functions, used to create screen and save names, and used by/with the tidyverse
+# 
+# # this has all of the actual code for processing dye screens
+# library(dsfworld) # you'll likely have to replace this with a series of "source()" calls with the R script names containing the functions. 
 ```
 
 Assign some information about your screen, so it's easy to propagate through the following code
 ```{r}
-# names / details of screen
-set_protein_name <- "SP115_NHR23LBD" #__USER_UPDATES__
-set_screen_num <- "Exp1236" #__USER_UPDATES__
-set_buffer_used <- "Buffer_P1" #__USER_UPDATES__
-
-# i like to divide outputs in to different folders. 
-# create those folders here
-# choose the folder names
-plot_folder <- "plots" # save the output plots
-assignments_folder <- "assignments" # save the manual hit assigments df and csv
-int_folder <- "int"  # save the tidied raw data
-# i already have"layout" and "raw" folders in the working directory where this notebook is saved
-
-# create the directories (or you can do it manually)
-# using the fs library, whih is good and safe. 
-fs::dir_create(plot_folder) 
-fs::dir_create(assignments_folder) 
-fs::dir_create(int_folder)
+# # names / details of screen
+# set_protein_name <- "SP115_NHR23LBD" #__USER_UPDATES__
+# set_screen_num <- "Exp1236" #__USER_UPDATES__
+# set_buffer_used <- "Buffer_P1" #__USER_UPDATES__
+# 
+# # i like to divide outputs in to different folders. 
+# # create those folders here
+# # choose the folder names
+# plot_folder <- "plots" # save the output plots
+# assignments_folder <- "assignments" # save the manual hit assigments df and csv
+# int_folder <- "int"  # save the tidied raw data
+# # i already have"layout" and "raw" folders in the working directory where this notebook is saved
+# 
+# # create the directories (or you can do it manually)
+# # using the fs library, whih is good and safe. 
+# fs::dir_create(plot_folder) 
+# fs::dir_create(assignments_folder) 
+# fs::dir_create(int_folder)
 ```
 
 Assign directories to files that need to be read

@@ -28,7 +28,7 @@ extract_plate_layout(
 
 \item{.extract_sep}{a string, passed directl yto the "sep" argument to tidyr::separate, if .extract_well is TRUE. Gives the separator between components; defaults to "_"}
 
-\item{.var_col}{a string, giving the name of the column in the provided /code{data} containing unqiue trace identifiers. Defaults to "variable". This column is used to get well names, if .extract_well_into is TRUE.}
+\item{.var_col}{a string, giving the name of the column in the provided \code{data} containing unqiue trace identifiers. Defaults to "variable". This column is used to get well names, if .extract_well_into is TRUE.}
 
 \item{.well_col}{a string, giving the name of the column containing well names, if any.}
 

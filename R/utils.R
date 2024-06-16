@@ -58,7 +58,7 @@ abort_bad_argument <- function(arg, must, not = NULL) {
 #' @param .extract_well a boolean. If TRUE, extracts the "well" component from a column which contains well, e.g. "A1_FAM", will extract "A1"
 #' @param .extract_well_into a character vector, passed directly to the "into" argument of tidyr::separate, if .extract_well is TRUE. Gives the names of the pieces into which the column named in the .var_col argument will be separated. Defaults to c("well", "channel_from_var", "type_from_var"). The elements other than 'well' in .extract_well_into will be dropped from the final layout. A warning is passed if columns of this name existed in input and will therefore also be missing from the resulting layout.
 #' @param .extract_sep a string, passed directl yto the "sep" argument to tidyr::separate, if .extract_well is TRUE. Gives the separator between components; defaults to "_"
-#' @param .var_col a string, giving the name of the column in the provided /code{data} containing unqiue trace identifiers. Defaults to "variable". This column is used to get well names, if .extract_well_into is TRUE.
+#' @param .var_col a string, giving the name of the column in the provided \code{data} containing unqiue trace identifiers. Defaults to "variable". This column is used to get well names, if .extract_well_into is TRUE.
 #' @param .well_col a string, giving the name of the column containing well names, if any.
 #' @param .keep_manual a characer vector which, if if .auto_detect = FALSE, gives the names of all column (other than well), which are to be kept and put in the final layout.
 #' @param .respect_grouping a boolean, defaults to FALSE, on whether or not to respect grouping of input \code{data}. Defaults to FALSE.
